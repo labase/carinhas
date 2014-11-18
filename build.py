@@ -1,11 +1,11 @@
-from pybuilder.core import use_plugin, init, Author
+from pybuilder.core import use_plugin, init, Author, task
 
 use_plugin("python.core")
 use_plugin("python.install_dependencies")
 use_plugin("python.unittest")
-use_plugin("python.coverage")
+#use_plugin("python.coverage")
 use_plugin("python.distutils")
-use_plugin('pypi:pybuilder_header_plugin')
+#use_plugin('pypi:pybuilder_header_plugin')
 use_plugin("exec")
 
 url = 'https://github.com/labase/carinhas'
@@ -14,8 +14,8 @@ authors = [Author('Carlo Oliveira', 'carlo@ufrj.br')]
 license = 'GNU General Public License v2 (GPLv2)'
 summary = "A game of matching faces."
 version = '0.1.1'
-default_task = ['analyze', 'check_source_file_headers', 'publish']
-analyze_command = "mv src/main/python/_init__.py src/main/python/__init__.py"
+default_task = ['analyze', 'publish', 'prepare_for_gae']
+
 
 @init
 def initialize(project):
@@ -38,3 +38,10 @@ def initialize(project):
     header = open('header.py').read()
     project.set_property('pybuilder_header_plugin_expected_header', header)
     project.set_property('pybuilder_header_plugin_break_build', True)
+
+
+@task
+def prepare_for_gae(project, logger):
+    import shutil
+    shutil.copy("src/main/__init__.py", "src/main/python")
+    logger.info(" copy src/main/__init__.py to src/main/python")
