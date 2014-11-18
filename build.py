@@ -6,6 +6,7 @@ use_plugin("python.unittest")
 use_plugin("python.coverage")
 use_plugin("python.distutils")
 use_plugin('pypi:pybuilder_header_plugin')
+use_plugin("exec")
 
 url = 'https://github.com/labase/carinhas'
 description = "Please visit {url}".format(url=url)
@@ -14,11 +15,10 @@ license = 'GNU General Public License v2 (GPLv2)'
 summary = "A game of matching faces."
 version = '0.1.1'
 default_task = ['analyze', 'check_source_file_headers', 'publish']
-
+analyze_command = "mv src/main/python/_init__.py src/main/python/__init__.py"
 
 @init
 def initialize(project):
-    project.build_depends_on('mockito')
     project.set_property('distutils_classifiers', [
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
